@@ -3,11 +3,45 @@ import { render, fireEvent, screen } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import Episode from "./../Episode";
 
-test("renders without error", () => {});
+const testEpisode = {
+    id: 553946,
+    name: "Chapter One: The Vanishing of Will Byers",
+    image: "https://static.tvmaze.com/uploads/images/medium_landscape/342/855786.jpg",
+    season: 1,
+    number: 1,
+    rating: { average: 8.2 },
+    runtime: 49,
+    summary:"A young boy mysteriously disappears, and his panicked mother demands that the police find him. Meanwhile, the boy's friends conduct their own search, and meet a mysterious girl in the forest.",
+}
 
-test("renders the summary test passed as prop", () => {});
+const testEpisodeWithoutImage = {
+    id: 553946,
+    name: "Chapter One: The Vanishing of Will Byers",
+    image: null,
+    season: 1,
+    number: 1,
+    rating: { average: 8.2 },
+    runtime: 49,
+    summary:"A young boy mysteriously disappears, and his panicked mother demands that the police find him. Meanwhile, the boy's friends conduct their own search, and meet a mysterious girl in the forest.",
+}
 
-test("renders default image when image is not defined", () => {});
+test("renders without error", () => {
+    render(<Episode episode={testEpisode}/>);
+});
+
+test("renders the summary test passed as prop", () => {
+    render(<Episode episode={testEpisode}/>);
+    const summary = screen.queryByText(/A young boy mysteriously disappears, and his panicked mother demands that the police find him. Meanwhile, the boy's friends conduct their own search, and meet a mysterious girl in the forest./i);
+    expect(summary).toBeInTheDocument();
+    expect(summary).toBeTruthy();
+    expect(summary).toHaveTextContent("A young boy mysteriously disappears, and his panicked mother demands that the police find him. Meanwhile, the boy's friends conduct their own search, and meet a mysterious girl in the forest.");
+});
+
+test("renders default image when image is not defined", () => {
+    render(<Episode episode={testEpisodeWithoutImage}/>);
+    const image = screen.queryByAltText('https://i.ibb.co/2FsfXqM/stranger-things.png');
+    expect(image).toBeInTheDocument();
+;});
 
 // ----- EXAMPLE EPISODE TEST OBJECT -----
 // const exampleEpisodeData = {
